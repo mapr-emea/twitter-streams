@@ -1,0 +1,12 @@
+# use kafka properties http://kafka.apache.org/07/configuration.html
+kafka:
+  producer.type: async
+  batch.size: 100
+  queue.time: 2000
+targetTopic: /user/mapr/twitter:samples
+language: all
+twitter:
+  consumerKey: rku0TuhSokK7KOMG5MB0gzO8b
+  consumerSecret: JGIhj8UmAA0itLEwbCSV3Q3EdknPpCoirUwJIa1r9caGTcehQD
+  accessToken: 211882310-jJbKIJamF4ySzAnUSWa8EIfmun5oxWGVWD3cseBk
+  accessTokenSecret: xuQpbfE48ePeyqbzmQkQva3dIwiDaFPx4SWxgxSJP2X0Q

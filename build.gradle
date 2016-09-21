@@ -1,0 +1,28 @@
+allprojects {
+    apply plugin: 'idea'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+  
+    group = 'com.mapr.twitter.streams'
+    version = '0.1.0'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url "http://repository.mapr.com/maven/" }
+    }
+    idea {
+	module {
+    	    downloadSources = true
+	}
+    }
+
+}
+
+

@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.mapr.twitter.streams.TwitterStreamApplication"
+archivesBaseName = 'twitter-streams-producer-agent'
+
+configurations {
+    compile.exclude group: "commons-logging", module: "commons-logging"
+    compile.exclude group: "log4j", module: "log4j"
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter:1.3.5.RELEASE")
+    compile 'com.mapr.streams:mapr-streams:5.2.0-mapr'
+    compile 'org.apache.kafka:kafka-clients:0.9.0.0-mapr-1607'
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.21'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
+    compile 'org.twitter4j:twitter4j-stream:4.0.4'
+}
+

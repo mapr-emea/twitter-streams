@@ -1,0 +1,54 @@
+apply plugin: 'scala'
+
+archivesBaseName = 'spark-streams-consumer'
+
+configurations {
+//    compile.exclude group: "commons-logging", module: "commons-logging"
+//    compile.exclude group: "log4j", module: "log4j"
+//    compile.exclude group: "org.apache.kafka", module: "kafka_2.10"
+    compile.exclude group: "org.apache.zookeeper", module: "zookeeper"
+    bundle {
+        transitive = false
+    }
+}
+configurations.all {
+    resolutionStrategy {
+        // Spark uses different versions, but works only with this one
+        force 'com.fasterxml.jackson.core:jackson-core:2.4.4'
+        force 'com.fasterxml.jackson.core:jackson-annotations:2.4.4'
+        force 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
+    }
+}
+
+dependencies {
+    compile ('org.apache.spark:spark-streaming-kafka-v09_2.10:1.6.1-mapr-1608') {
+        exclude group: "org.apache.kafka", module: "kafka-clients"
+    }
+    compile 'org.apache.kafka:kafka-clients:0.9.0.0-mapr-1607-streams-5.2.0'
+    compile 'org.apache.spark:spark-streaming-twitter_2.10:1.6.1-mapr-1608'
+    compile 'org.apache.spark:spark-streaming_2.10:1.6.1-mapr-1608'
+    compile 'org.apache.spark:spark-sql_2.10:1.6.1-mapr-1608'
+    compile 'org.apache.spark:spark-yarn_2.10:1.6.1-mapr-1608'
+    compile 'com.mapr.streams:mapr-streams:5.2.0-mapr'
+
+    // OpenTSDB client deps
+    compile files('libs/java-client-2.1.0.jar')
+    compile group: 'com.google.guava', name: 'guava', version: '14.0'
+    compile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.3'
+
+    bundle files('libs/java-client-2.1.0.jar')
+    bundle group: 'com.google.guava', name: 'guava', version: '14.0'
+    bundle group: 'org.hamcrest', name: 'hamcrest-all', version: '1.1'
+    bundle group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.3'
+
+}
+
+jar {
+    from configurations.bundle.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }
+    manifest {
+        attributes 'Main-Class': 'com.mapr.twitter.spark.TwitterCount'
+    }
+}
